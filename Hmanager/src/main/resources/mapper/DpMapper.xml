@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 命名空间与对应映射接口的全类名一致 -->
+<mapper namespace="com.yc.mybatis.mapper.DpMapper">
+	<select id="getAllDpName" parameterType="Department" resultType="Department">
+		select * from department
+	</select>
+
+	<insert id="insertDp" parameterType="Department">
+		insert into department
+		values(seq_dpid.nextval,#{dpname})
+	</insert>
+
+	<select id="getNameAndMan" parameterType="int" resultType="Department">
+		select * from department where dpid=#{dpid}
+	</select>
+
+	<update id="updateDp" parameterType="Department" flushCache="false">
+		update department set dpname=#{dpname} where dpid=#{dpid}
+	</update>
+	
+	<select id="selectByDpName" parameterType="String" resultType="Department">
+		select * from department where dpname=#{dpname}
+	</select>
+	
+<!-- 	<resultMap type="Person" id="Dper">
+		<id property="pid" column="pid"/>
+		<result property="pname" column="pname"/>
+		<result property="personid" column="personid"/>
+		<result property="ppower" column="ppower"/>
+		<result property="position" column="position"/>
+		<association property="department" javaType="Department">
+			<id property="dpid" column="dpid"/>
+			<result property="dpname" column="dpname"/>
+		</association>
+	</resultMap>
+	
+	<select id="getDeptBypid" resultMap="Dper">
+		select * from person p join department d on p.personid=d.dpid and pid=#{pid}
+	</select> -->
+	<delete id="DelDp" parameterType="int">
+		delete from department where
+		dpid=#{dpid}
+	</delete>
+</mapper>

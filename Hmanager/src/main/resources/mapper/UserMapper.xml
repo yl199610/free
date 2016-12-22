@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 命名空间与对应映射接口的全类名一致 -->
+<mapper namespace="com.yc.mybatis.mapper.UserMapper">
+
+	<select id="findUser" parameterType="Manager" resultType="Manager">
+		select * from manager where mid=#{mid} and pwd=#{pwd} and upower=#{upower}
+	</select>
+
+	<insert id="insertPerson" parameterType="Person">
+		insert into person
+		values(seq_pid.nextval,#{pname},#{idcard},#{phonenumber},#{sex},#{birthday},#{personid},#{ppower},#{address},#{position},#{photo},#{empdate})
+	</insert>
+
+	<select id="loginPerson" parameterType="Person" resultType="Person">
+		select* from person where pid=#{pid} and personid=#{personid} and ppower=#{ppower}
+	</select>
+
+
+	<sql id="selectProfile">
+		select * from manager
+	</sql>
+
+	<!-- <select id="selectDpName" parameterType="int" resultMap="Department"> 
+		select * from department where dpid=#{dpid} </select> -->
+
+
+	<resultMap type="PaginationBean" id="PaginationBeanMap">
+		<collection property="rows"
+			column="{pageSize=pageSize,currPage=currPage}" select="getUsers" />
+	</resultMap>
+
+	<select id="getUsersByPagination" parameterType="PaginationBean"
+		resultMap="PaginationBeanMap">
+		select count(1) total,ceil(count(1)/${pageSize})
+		totalPage,${pageSize} pageSize,${currPage} currPage from person
+	</select>
+
+	<select id="getUsers" resultType="Person">
+		select * from
+		(select m.*,rownum rn from
+		(select * from person order by 1 desc) m where
+		${currPage}*${pageSize}>=rownum) where rn>(${currPage}-1)*${pageSize}
+	</select>
+
+	<select id="getOnePerson" parameterType="int" resultType="Person">
+		select * from person where pid=#{pid}
+	</select>
+
+	<update id="updateUser" parameterType="Person" flushCache="false">
+		update person set
+		pname=#{pname},idcard=#{idcard},phonenumber=#{phonenumber},sex=#{sex},birthday=#{birthday},personid=#{personid},ppower=#{ppower},address=#{address},position=#{position},empdate=#{empdate}
+		<if test="photo!=null">
+			,photo=#{photo}
+		</if>
+		where pid=#{pid}
+	</update>
+
+	<delete id="archOnePerson" parameterType="int">
+		delete from person where pid=#{pid}
+	</delete>
+
+	<resultMap type="Person" id="EmpMap03">
+		<id property="pid" column="pid" />
+		<result property="pname" column="pname" />
+		<result property="idcard" column="idcard" />
+		<result property="phonenumber" column="phonenumber" />
+		<result property="sex" column="sex" />
+		<result property="birthday" column="birthday" />
+		<result property="photo" column="photo" />
+		<result property="ppower" column="ppower" />
+		<result property="personid" column="personid" />
+		<result property="address" column="address" />
+		<result property="position" column="position" />
+		<result property="empdate" column="empdate" />
+	</resultMap>
+
+	<select id="getPersonAll" resultMap="EmpMap03">
+		select * from person
+	</select>
+<!-- 	<resultMap type="Person" id="DeptMap">
+			<id property="pid" column="pid"/>
+			<result property="pname" column="pname"/>
+			<result property="idcard" column="idcard"/>
+			<result property="phonenumber" column="phonenumber"/>
+			<result property="position" column="position"/>
+			<collection property="money" ofType="Money">
+				<id property="paid" column="paid"/>
+				<result property="pamoney" column="pamoney"/>
+				<result property="moneymonth" column="moneymonth"/>
+			</collection>
+	</resultMap>
+	
+	<select id="getPersonMoney" parameterType="int" resultMap="DeptMap">
+		select * from punish_award pa join person p on p.pid=pa.punishaward_id and pid=#{pid}
+	</select> -->
+	
+</mapper>

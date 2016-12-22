@@ -1,0 +1,74 @@
+@charset "utf-8";
+/* CSS Document */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body, body#layoutBody {
+	font: 12px/20px Tahoma;
+	width: 960px;
+	margin: 0px auto;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+img {
+	border: 0;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	color: #333;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #f00;
+	text-decoration: underline;
+}
+
+#header {
+	clear: both;
+	margin: 0 auto;
+	margin-top: 15px;
+	width: 947px;
+	height: 120px;
+	border: 1px solid #dfdfdf;
+	background: url(../image/topbg.gif) repeat-x;
+}
+
+#welcome {
+	padding: 6px 0 0 10px;
+	height: 20px;
+	background: blue;
+}
+
+#nav {
+	clear: both;
+	padding: 0 10px;
+}
+
+#a_b01 {
+	float: left;
+	width: 784px;
+	margin: 4px 0 0 0;
+}
+
+#leftSider li {
+	margin-top: 10px;
+}
+
+#main h1 {
+	width: 100%;
+	margin: 80px auto;
+	text-align: center;
+	letter-spacing: 10px;
+	font-size: 40px;
+	color: #022F5F;
+}
